@@ -1,98 +1,200 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 Xcrap Private Server — Backend
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> Backend robusto em **NestJS 11** para orquestração de web scrapers, extração declarativa de dados e gerenciamento de clientes HTTP utilizando o ecossistema `@xcrap`.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+[![NestJS](https://img.shields.io/badge/NestJS-11.x-E0234E?logo=nestjs&logoColor=white)](https://nestjs.com/)
+[![Prisma](https://img.shields.io/badge/Prisma-6.x-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![Swagger](https://img.shields.io/badge/OpenAPI-Swagger-85EA2D?logo=swagger&logoColor=black)](http://localhost:3003/docs)
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## 📌 Sobre o Projeto
 
-## Project setup
+O **Xcrap Private Server Backend** é o núcleo de serviços da plataforma Xcrap Cloud. Ele centraliza a configuração, armazenamento e execução de pipelines de scraping através de diferentes clientes HTTP, além de oferecer controle de acesso seguro para usuários, administradores e SDKs externos.
 
-```bash
-$ npm install
-```
+### Principais Funcionalidades:
+- 🔐 **Multi-Autenticação**: Suporte híbrido via **JWT (Bearer Token)** para sessões no frontend e **API Key (`x-api-key`)** para chamadas via SDK ou automações externas.
+- 🕷️ **Execução de Scrapers Dinâmicos e Persistidos**: Suporte à execução de scrapers salvos ou execução imediata sob demanda (`/scrapers/dynamic/execute`) com modelos de parsing estruturados (HTML, JSON, Markdown).
+- 🌐 **Múltiplos Clientes HTTP Especializados**: Suporte nativo a diferentes motores de requisição (`http_core`, `axios`, `got_scraping` para evasão avançada, e `impit`).
+- 🛡️ **Segurança e Criptografia**: API Keys de usuários criptografadas com **AES-256-CBC**, senhas com **bcrypt**, headers de segurança com **Helmet** e validação global estrita de payloads com **class-validator**.
+- 📄 **Paginação e Busca Otimizada**: Paginação padronizada em todos os módulos (`/users`, `/clients`, `/scrapers`) com busca textual por substring (`contains`) e insensível a maiúsculas/minúsculas.
+- 📑 **Swagger / OpenAPI Integrado**: Documentação viva e gerador automático de especificação em `swagger-spec.json`.
 
-## Compile and run the project
+---
 
-```bash
-# development
-$ npm run start
+## 🛠️ Tecnologias Utilizadas
 
-# watch mode
-$ npm run start:dev
+- **Framework**: [NestJS](https://nestjs.com/) (Express, Config, Passport, JWT, Swagger)
+- **ORM / Banco de Dados**: [Prisma](https://www.prisma.io/) com SQLite
+- **Módulos `@xcrap`**:
+  - `@xcrap/core` — Estruturas fundamentais de scraping e requisição HTTP
+  - `@xcrap/factory` — Fábrica de criação de clientes e modelos de parsing
+  - `@xcrap/parser` — Motores de extração estruturada (HTML, JSON, Markdown)
+  - `@xcrap/axios-client` — Cliente HTTP baseado em Axios
+  - `@xcrap/got-scraping-client` — Cliente com evasão de bloqueios e fingerprinting
+  - `@xcrap/impit-client` — Cliente HTTP de alta performance
+- **Paginação**: `prisma-pagination`
+- **Validação / Sanitização**: `class-validator`, `class-transformer`
 
-# production mode
-$ npm run start:prod
-```
+---
 
-## Run tests
+## 📂 Estrutura de Pastas
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+src/
+├── auth/            # Módulo de autenticação (JWT, Local, API Key, Guards e Decorators)
+├── clients/         # Módulo de gerenciamento de clientes HTTP configuráveis
+├── scrapers/        # Módulo de orquestração e execução de scrapers
+├── users/           # Gerenciamento de usuários e permissões (RBAC)
+├── crypto/          # Serviço de criptografia simétrica (AES-256-CBC) e hash (bcrypt)
+├── parser/          # Tipagens e utilitários dos modelos de parsing
+├── helpers/         # Configurações globais, extractors permitidos e constantes
+├── common/          # Guards, pipes de validação (Min/Max number) e filters
+└── main.ts          # Ponto de entrada da aplicação NestJS
+prisma/
+├── schema.prisma    # Modelagem do banco de dados (User, Client, Scraper)
+├── seed.ts          # Criação do usuário administrador e clientes padrão
+└── dev.db           # Banco SQLite de desenvolvimento
 ```
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## ⚙️ Variáveis de Ambiente (`.env`)
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
 
 ```bash
-$ npm install -g mau
-$ mau deploy
+cp .env.example .env
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+| Variável | Descrição | Exemplo |
+| :--- | :--- | :--- |
+| `PORT` | Porta onde o servidor responderá | `3003` |
+| `DATABASE_URL` | URL de conexão do Prisma SQLite | `"file:./dev.db"` |
+| `JWT_PRIVATE_KEY` | Chave secreta para assinatura dos tokens JWT | `[string hex]` |
+| `ACCESS_SIGN_EXPIRES_IN` | Tempo de expiração do Access Token | `7d` |
+| `REFRESH_SIGN_EXPIRES_IN` | Tempo de expiração do Refresh Token | `30d` |
+| `BCRYPT_SALT_ROUNDS` | Rounds de salt para o hash de senhas | `12` |
+| `ENCRYPTION_ALGORITHM` | Algoritmo simétrico para dados sensíveis | `aes-256-cbc` |
+| `ENCRYPTION_KEY` | Chave de criptografia de 256 bits (32 bytes em hex) | `[64 caracteres hex]` |
+| `ENCRYPTION_IV` | Vetor de inicialização (16 bytes em hex) | `[32 caracteres hex]` |
+| `ADMIN_DEFAULT_ID` | UUID fixo para o administrador no seed | `[uuid]` |
+| `ADMIN_DEFAULT_USERNAME`| Username do administrador inicial | `admin` |
+| `ADMIN_DEFAULT_EMAIL` | E-mail do administrador inicial | `admin@xcrap.dev` |
+| `ADMIN_DEFAULT_API_KEY` | API Key inicial do administrador | `adm_xxxxxxxx...` |
+| `ADMIN_DEFAULT_NAME` | Nome do administrador | `Administrador` |
+| `ADMIN_DEFAULT_PASSWORD`| Senha do administrador | `senha_segura` |
 
-## Resources
+---
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🚀 Instalação e Execução
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 1. Instalar as Dependências
 
-## Support
+```bash
+npm install
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### 2. Configurar o Banco de Dados (Prisma)
 
-## Stay in touch
+Gere o cliente do Prisma, aplique as migrações e popule o banco com o seed inicial:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+# Gerar o cliente Prisma
+npx prisma generate
 
-## License
+# Aplicar migrações
+npx prisma migrate dev
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+# Executar o seed (cria admin e clientes padrão)
+npx prisma db seed
+```
+
+> **Dica**: Para inspecionar visualmente os dados do banco SQLite:
+> ```bash
+> npx prisma studio
+> ```
+
+### 3. Iniciar o Servidor
+
+```bash
+# Modo de desenvolvimento com hot-reload
+npm run start:dev
+
+# Modo de produção
+npm run build
+npm run start:prod
+```
+
+O servidor estará disponível por padrão em: **`http://localhost:3003`**
+
+---
+
+## 📖 Documentação da API (Swagger)
+
+Com o servidor rodando em modo de desenvolvimento, acesse a documentação interativa:
+
+- **Swagger UI**: [http://localhost:3003/docs](http://localhost:3003/docs)
+- **Atalho no Windows**:
+  ```bash
+  npm run open-docs
+  ```
+
+---
+
+## 🛣️ Rotas Principais (Visão Geral)
+
+### 🔐 Autenticação (`/auth`)
+- `POST /auth/sign-in` — Autenticação de usuário (gera Access & Refresh Token)
+- `POST /auth/sign-up` — Cadastro de novo usuário
+- `POST /auth/refresh-token` — Renovação do Access Token
+
+### 👤 Usuários (`/users`) *(Requer Admin)*
+- `GET /users?page=1&perPage=20&name=...` — Listagem paginada com filtro de nome
+- `POST /users` — Criação manual de usuário
+- `GET /users/:id` — Detalhes do usuário
+- `PATCH /users/:id` — Atualização de usuário
+- `DELETE /users/:id` — Remoção de usuário
+
+### 🌐 Clientes HTTP (`/clients`) *(Requer Autenticação)*
+- `GET /clients?page=1&perPage=20&name=...` — Listagem paginada de clientes
+- `POST /clients` — Cadastro de cliente HTTP personalizado
+- `GET /clients/:id` — Detalhes do cliente
+- `PATCH /clients/:id` — Atualização de configurações
+- `DELETE /clients/:id` — Exclusão de cliente
+
+### 🕷️ Scrapers (`/scrapers`) *(Requer Autenticação)*
+- `GET /scrapers?page=1&perPage=20&name=...` — Listagem paginada de scrapers
+- `POST /scrapers` — Cadastro de scraper com modelo de parsing
+- `GET /scrapers/:id` — Detalhes do scraper
+- `POST /scrapers/:id/execute` — Execução de um scraper cadastrado
+- `POST /scrapers/dynamic/execute` — Execução direta de um scraper dinâmico sob demanda
+- `PATCH /scrapers/:id` — Atualização do scraper
+- `DELETE /scrapers/:id` — Remoção do scraper
+
+---
+
+## 🧪 Testes e Qualidade de Código
+
+```bash
+# Executar testes unitários
+npm run test
+
+# Executar testes end-to-end (e2e)
+npm run test:e2e
+
+# Verificar cobertura de testes
+npm run test:cov
+
+# Linter e Formatação
+npm run lint
+npm run format
+```
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por **Marcuth** como parte do ecossistema [Xcrap Cloud](https://github.com/Xcrap-Cloud).
