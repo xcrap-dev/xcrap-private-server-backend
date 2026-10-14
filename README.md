@@ -1,6 +1,6 @@
 # 🚀 Xcrap Private Server — Backend
 
-> Backend robusto em **NestJS 11** para orquestração de web scrapers, extração declarativa de dados e gerenciamento de clientes HTTP utilizando o ecossistema `@xcrap`.
+> Robust **NestJS 11** backend for web scraping orchestration, declarative data parsing, and HTTP client management powered by the `@xcrap` ecosystem.
 
 [![NestJS](https://img.shields.io/badge/NestJS-11.x-E0234E?logo=nestjs&logoColor=white)](https://nestjs.com/)
 [![Prisma](https://img.shields.io/badge/Prisma-6.x-2D3748?logo=prisma&logoColor=white)](https://www.prisma.io/)
@@ -10,191 +10,191 @@
 
 ---
 
-## 📌 Sobre o Projeto
+## 📌 About the Project
 
-O **Xcrap Private Server Backend** é o núcleo de serviços da plataforma Xcrap Cloud. Ele centraliza a configuração, armazenamento e execução de pipelines de scraping através de diferentes clientes HTTP, além de oferecer controle de acesso seguro para usuários, administradores e SDKs externos.
+The **Xcrap Private Server Backend** is the core service hub for the Xcrap Cloud platform. It centralizes configuration, storage, and execution of web scraping pipelines across multiple HTTP clients while providing secure access control for web dashboards, administrators, and external SDKs.
 
-### Principais Funcionalidades:
-- 🔐 **Multi-Autenticação**: Suporte híbrido via **JWT (Bearer Token)** para sessões no frontend e **API Key (`x-api-key`)** para chamadas via SDK ou automações externas.
-- 🕷️ **Execução de Scrapers Dinâmicos e Persistidos**: Suporte à execução de scrapers salvos ou execução imediata sob demanda (`/scrapers/dynamic/execute`) com modelos de parsing estruturados (HTML, JSON, Markdown).
-- 🌐 **Múltiplos Clientes HTTP Especializados**: Suporte nativo a diferentes motores de requisição (`http_core`, `axios`, `got_scraping` para evasão avançada, e `impit`).
-- 🛡️ **Segurança e Criptografia**: API Keys de usuários criptografadas com **AES-256-CBC**, senhas com **bcrypt**, headers de segurança com **Helmet** e validação global estrita de payloads com **class-validator**.
-- 📄 **Paginação e Busca Otimizada**: Paginação padronizada em todos os módulos (`/users`, `/clients`, `/scrapers`) com busca textual por substring (`contains`) e insensível a maiúsculas/minúsculas.
-- 📑 **Swagger / OpenAPI Integrado**: Documentação viva e gerador automático de especificação em `swagger-spec.json`.
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Framework**: [NestJS](https://nestjs.com/) (Express, Config, Passport, JWT, Swagger)
-- **ORM / Banco de Dados**: [Prisma](https://www.prisma.io/) com SQLite
-- **Módulos `@xcrap`**:
-  - `@xcrap/core` — Estruturas fundamentais de scraping e requisição HTTP
-  - `@xcrap/factory` — Fábrica de criação de clientes e modelos de parsing
-  - `@xcrap/parser` — Motores de extração estruturada (HTML, JSON, Markdown)
-  - `@xcrap/axios-client` — Cliente HTTP baseado em Axios
-  - `@xcrap/got-scraping-client` — Cliente com evasão de bloqueios e fingerprinting
-  - `@xcrap/impit-client` — Cliente HTTP de alta performance
-- **Paginação**: `prisma-pagination`
-- **Validação / Sanitização**: `class-validator`, `class-transformer`
+### Key Features:
+- 🔐 **Multi-Authentication Support**: Hybrid authentication via **JWT (Bearer Token)** for user dashboard sessions and **API Key (`x-api-key`)** for automated SDKs and external integrations.
+- 🕷️ **Dynamic & Persisted Scraper Execution**: Execute pre-configured database scrapers or run on-demand ad-hoc scrapers (`/scrapers/dynamic/execute`) with declarative parsing models (HTML, JSON, Markdown).
+- 🌐 **Specialized HTTP Clients**: Native integration with multiple request engines (`http_core`, `axios`, `got_scraping` for advanced anti-bot evasion, and `impit`).
+- 🛡️ **Security & Encryption**: Sensitive user API Keys encrypted at rest using **AES-256-CBC**, password hashing with **bcrypt**, secure headers via **Helmet**, and strict DTO validation with **class-validator**.
+- 📄 **Standardized Pagination & Search**: Uniform pagination across all modules (`/users`, `/clients`, `/scrapers`) featuring case-insensitive substring searching (`contains`).
+- 📑 **Interactive Swagger / OpenAPI**: Embedded documentation UI and automatic generation of `swagger-spec.json`.
 
 ---
 
-## 📂 Estrutura de Pastas
+## 🛠️ Tech Stack
+
+- **Framework**: [NestJS](https://nestjs.com/) 11 (Express, Config, Passport, JWT, Swagger)
+- **Database / ORM**: [Prisma](https://www.prisma.io/) with SQLite
+- **`@xcrap` Ecosystem**:
+  - `@xcrap/core` — Core scraping and HTTP client abstractions
+  - `@xcrap/factory` — Client and parsing model creation factories
+  - `@xcrap/parser` — Structured data extraction engines (HTML, JSON, Markdown)
+  - `@xcrap/axios-client` — Axios-based HTTP client
+  - `@xcrap/got-scraping-client` — Fingerprint emulation and anti-bot evasion client
+  - `@xcrap/impit-client` — High-performance HTTP client
+- **Pagination**: `prisma-pagination`
+- **Validation**: `class-validator`, `class-transformer`
+
+---
+
+## 📂 Project Structure
 
 ```bash
 src/
-├── auth/            # Módulo de autenticação (JWT, Local, API Key, Guards e Decorators)
-├── clients/         # Módulo de gerenciamento de clientes HTTP configuráveis
-├── scrapers/        # Módulo de orquestração e execução de scrapers
-├── users/           # Gerenciamento de usuários e permissões (RBAC)
-├── crypto/          # Serviço de criptografia simétrica (AES-256-CBC) e hash (bcrypt)
-├── parser/          # Tipagens e utilitários dos modelos de parsing
-├── helpers/         # Configurações globais, extractors permitidos e constantes
-├── common/          # Guards, pipes de validação (Min/Max number) e filters
-└── main.ts          # Ponto de entrada da aplicação NestJS
+├── auth/            # Authentication module (JWT, Local, API Key, Guards, Decorators)
+├── clients/         # Configurable HTTP clients management
+├── scrapers/        # Scraper orchestration, execution and parsing pipeline
+├── users/           # User management and Role-Based Access Control (RBAC)
+├── crypto/          # Symmetric encryption service (AES-256-CBC) & hashing (bcrypt)
+├── parser/          # Parsing model typings and validation utilities
+├── helpers/         # Global configuration helpers, allowed extractors & constants
+├── common/          # Reusable guards, validation pipes (Min/Max number), filters
+└── main.ts          # Application entry point
 prisma/
-├── schema.prisma    # Modelagem do banco de dados (User, Client, Scraper)
-├── seed.ts          # Criação do usuário administrador e clientes padrão
-└── dev.db           # Banco SQLite de desenvolvimento
+├── schema.prisma    # Database schema (User, Client, Scraper models)
+├── seed.ts          # Seed script for initial admin user and default clients
+└── dev.db           # SQLite database file
 ```
 
 ---
 
-## ⚙️ Variáveis de Ambiente (`.env`)
+## ⚙️ Environment Variables (`.env`)
 
-Crie um arquivo `.env` na raiz do projeto baseado no `.env.example`:
+Create a `.env` file in the project root based on `.env.example`:
 
 ```bash
 cp .env.example .env
 ```
 
-| Variável | Descrição | Exemplo |
+| Variable | Description | Example |
 | :--- | :--- | :--- |
-| `PORT` | Porta onde o servidor responderá | `3003` |
-| `DATABASE_URL` | URL de conexão do Prisma SQLite | `"file:./dev.db"` |
-| `JWT_PRIVATE_KEY` | Chave secreta para assinatura dos tokens JWT | `[string hex]` |
-| `ACCESS_SIGN_EXPIRES_IN` | Tempo de expiração do Access Token | `7d` |
-| `REFRESH_SIGN_EXPIRES_IN` | Tempo de expiração do Refresh Token | `30d` |
-| `BCRYPT_SALT_ROUNDS` | Rounds de salt para o hash de senhas | `12` |
-| `ENCRYPTION_ALGORITHM` | Algoritmo simétrico para dados sensíveis | `aes-256-cbc` |
-| `ENCRYPTION_KEY` | Chave de criptografia de 256 bits (32 bytes em hex) | `[64 caracteres hex]` |
-| `ENCRYPTION_IV` | Vetor de inicialização (16 bytes em hex) | `[32 caracteres hex]` |
-| `ADMIN_DEFAULT_ID` | UUID fixo para o administrador no seed | `[uuid]` |
-| `ADMIN_DEFAULT_USERNAME`| Username do administrador inicial | `admin` |
-| `ADMIN_DEFAULT_EMAIL` | E-mail do administrador inicial | `admin@xcrap.dev` |
-| `ADMIN_DEFAULT_API_KEY` | API Key inicial do administrador | `adm_xxxxxxxx...` |
-| `ADMIN_DEFAULT_NAME` | Nome do administrador | `Administrador` |
-| `ADMIN_DEFAULT_PASSWORD`| Senha do administrador | `senha_segura` |
+| `PORT` | HTTP server port | `3003` |
+| `DATABASE_URL` | Prisma SQLite connection URL | `"file:./dev.db"` |
+| `JWT_PRIVATE_KEY` | Secret key for signing JWT tokens | `[hex string]` |
+| `ACCESS_SIGN_EXPIRES_IN` | Access token lifespan | `7d` |
+| `REFRESH_SIGN_EXPIRES_IN` | Refresh token lifespan | `30d` |
+| `BCRYPT_SALT_ROUNDS` | Salt rounds for password hashing | `12` |
+| `ENCRYPTION_ALGORITHM` | Symmetric encryption algorithm | `aes-256-cbc` |
+| `ENCRYPTION_KEY` | 256-bit encryption key (32 bytes in hex) | `[64 hex chars]` |
+| `ENCRYPTION_IV` | Initialization vector (16 bytes in hex) | `[32 hex chars]` |
+| `ADMIN_DEFAULT_ID` | Fixed UUID for the seeded administrator | `[uuid]` |
+| `ADMIN_DEFAULT_USERNAME`| Default admin username | `admin` |
+| `ADMIN_DEFAULT_EMAIL` | Default admin email | `admin@xcrap.dev` |
+| `ADMIN_DEFAULT_API_KEY` | Default admin API key | `adm_xxxxxxxx...` |
+| `ADMIN_DEFAULT_NAME` | Default admin display name | `Admin` |
+| `ADMIN_DEFAULT_PASSWORD`| Default admin password | `secure_password` |
 
 ---
 
-## 🚀 Instalação e Execução
+## 🚀 Getting Started
 
-### 1. Instalar as Dependências
+### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. Configurar o Banco de Dados (Prisma)
+### 2. Setup the Database (Prisma)
 
-Gere o cliente do Prisma, aplique as migrações e popule o banco com o seed inicial:
+Generate the Prisma Client, apply database migrations, and run the initial seed:
 
 ```bash
-# Gerar o cliente Prisma
+# Generate Prisma Client
 npx prisma generate
 
-# Aplicar migrações
+# Apply migrations
 npx prisma migrate dev
 
-# Executar o seed (cria admin e clientes padrão)
+# Run the seed script (creates admin user and default HTTP clients)
 npx prisma db seed
 ```
 
-> **Dica**: Para inspecionar visualmente os dados do banco SQLite:
+> **Tip**: You can visually inspect and manage SQLite data using Prisma Studio:
 > ```bash
 > npx prisma studio
 > ```
 
-### 3. Iniciar o Servidor
+### 3. Run the Application
 
 ```bash
-# Modo de desenvolvimento com hot-reload
+# Development mode with hot-reload
 npm run start:dev
 
-# Modo de produção
+# Production build & run
 npm run build
 npm run start:prod
 ```
 
-O servidor estará disponível por padrão em: **`http://localhost:3003`**
+By default, the server runs at: **`http://localhost:3003`**
 
 ---
 
-## 📖 Documentação da API (Swagger)
+## 📖 API Documentation (Swagger)
 
-Com o servidor rodando em modo de desenvolvimento, acesse a documentação interativa:
+When running in development mode, access the interactive Swagger UI:
 
 - **Swagger UI**: [http://localhost:3003/docs](http://localhost:3003/docs)
-- **Atalho no Windows**:
+- **Windows Shortcut**:
   ```bash
   npm run open-docs
   ```
 
 ---
 
-## 🛣️ Rotas Principais (Visão Geral)
+## 🛣️ API Endpoints Overview
 
-### 🔐 Autenticação (`/auth`)
-- `POST /auth/sign-in` — Autenticação de usuário (gera Access & Refresh Token)
-- `POST /auth/sign-up` — Cadastro de novo usuário
-- `POST /auth/refresh-token` — Renovação do Access Token
+### 🔐 Authentication (`/auth`)
+- `POST /auth/sign-in` — Authenticate user (returns Access & Refresh Token)
+- `POST /auth/sign-up` — Register a new user
+- `POST /auth/refresh-token` — Renew an expired Access Token
 
-### 👤 Usuários (`/users`) *(Requer Admin)*
-- `GET /users?page=1&perPage=20&name=...` — Listagem paginada com filtro de nome
-- `POST /users` — Criação manual de usuário
-- `GET /users/:id` — Detalhes do usuário
-- `PATCH /users/:id` — Atualização de usuário
-- `DELETE /users/:id` — Remoção de usuário
+### 👤 Users (`/users`) *(Admin Only)*
+- `GET /users?page=1&perPage=20&name=...` — Paginated user listing with search filter
+- `POST /users` — Create user manually
+- `GET /users/:id` — Get user details
+- `PATCH /users/:id` — Update user
+- `DELETE /users/:id` — Remove user
 
-### 🌐 Clientes HTTP (`/clients`) *(Requer Autenticação)*
-- `GET /clients?page=1&perPage=20&name=...` — Listagem paginada de clientes
-- `POST /clients` — Cadastro de cliente HTTP personalizado
-- `GET /clients/:id` — Detalhes do cliente
-- `PATCH /clients/:id` — Atualização de configurações
-- `DELETE /clients/:id` — Exclusão de cliente
+### 🌐 HTTP Clients (`/clients`) *(Authenticated)*
+- `GET /clients?page=1&perPage=20&name=...` — Paginated clients listing with search filter
+- `POST /clients` — Register a new custom HTTP client configuration
+- `GET /clients/:id` — Get client details
+- `PATCH /clients/:id` — Update client configuration
+- `DELETE /clients/:id` — Delete client
 
-### 🕷️ Scrapers (`/scrapers`) *(Requer Autenticação)*
-- `GET /scrapers?page=1&perPage=20&name=...` — Listagem paginada de scrapers
-- `POST /scrapers` — Cadastro de scraper com modelo de parsing
-- `GET /scrapers/:id` — Detalhes do scraper
-- `POST /scrapers/:id/execute` — Execução de um scraper cadastrado
-- `POST /scrapers/dynamic/execute` — Execução direta de um scraper dinâmico sob demanda
-- `PATCH /scrapers/:id` — Atualização do scraper
-- `DELETE /scrapers/:id` — Remoção do scraper
+### 🕷️ Scrapers (`/scrapers`) *(Authenticated)*
+- `GET /scrapers?page=1&perPage=20&name=...` — Paginated scrapers listing with search filter
+- `POST /scrapers` — Create a scraper with declarative parsing model
+- `GET /scrapers/:id` — Get scraper details
+- `POST /scrapers/:id/execute` — Execute a saved scraper by ID
+- `POST /scrapers/dynamic/execute` — Execute an ad-hoc dynamic scraper payload
+- `PATCH /scrapers/:id` — Update scraper
+- `DELETE /scrapers/:id` — Delete scraper
 
 ---
 
-## 🧪 Testes e Qualidade de Código
+## 🧪 Testing & Code Quality
 
 ```bash
-# Executar testes unitários
+# Run unit tests
 npm run test
 
-# Executar testes end-to-end (e2e)
+# Run end-to-end (e2e) tests
 npm run test:e2e
 
-# Verificar cobertura de testes
+# Run test coverage
 npm run test:cov
 
-# Linter e Formatação
+# Linter and Code Formatting
 npm run lint
 npm run format
 ```
 
 ---
 
-## 👨‍💻 Autor
+## 👨‍💻 Author
 
-Desenvolvido por **Marcuth** como parte do ecossistema [Xcrap Cloud](https://github.com/Xcrap-Cloud).
+Maintained by **Marcuth** as part of the [Xcrap Cloud](https://github.com/Xcrap-Cloud) ecosystem.
