@@ -54,13 +54,22 @@ export class UsersService {
         })
     }
 
-    async findAll({ page, perPage }: PaginateOptions) {
+    async findAll({ page, perPage, name }: PaginateOptions & { name?: string }) {
         const paginate = createPaginator({
             page: page,
             perPage: perPage,
         })
 
+        const where: Prisma.UserWhereInput = name
+            ? {
+                  name: {
+                      contains: name,
+                  },
+              }
+            : {}
+
         return await paginate<User, Prisma.UserFindManyArgs>(this.prisma.user, {
+            where,
             omit: {
                 password: true,
                 apiKey: true,

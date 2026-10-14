@@ -54,13 +54,22 @@ export class ScrapersService {
         })
     }
 
-    async findAll({ page, perPage }: PaginateOptions) {
+    async findAll({ page, perPage, name }: PaginateOptions & { name?: string }) {
         const paginate = createPaginator({
             page: page,
             perPage: perPage,
         })
 
+        const where: Prisma.ScraperWhereInput = name
+            ? {
+                  name: {
+                      contains: name,
+                  },
+              }
+            : {}
+
         return await paginate<Scraper, Prisma.ScraperFindManyArgs>(this.prisma.scraper, {
+            where: where,
             orderBy: {
                 createdAt: "desc",
             },

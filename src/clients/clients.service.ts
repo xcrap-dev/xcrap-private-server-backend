@@ -37,13 +37,22 @@ export class ClientsService {
         })
     }
 
-    async findAll({ page, perPage }: PaginateOptions) {
+    async findAll({ page, perPage, name }: PaginateOptions & { name?: string }) {
         const paginate = createPaginator({
             page: page,
             perPage: perPage,
         })
 
+        const where: Prisma.ClientWhereInput = name
+            ? {
+                  name: {
+                      contains: name,
+                  },
+              }
+            : {}
+
         return await paginate<Client, Prisma.ClientFindManyArgs>(this.prisma.client, {
+            where: where,
             orderBy: {
                 createdAt: "desc",
             },

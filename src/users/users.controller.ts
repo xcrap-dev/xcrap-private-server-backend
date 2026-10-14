@@ -52,6 +52,11 @@ export class UsersController {
         minimum: configHelper.pagination.minPerPage,
         maximum: configHelper.pagination.maxPerPage,
     })
+    @ApiQuery({
+        name: "name",
+        required: false,
+        type: String,
+    })
     async findAll(
         @Query(
             "page",
@@ -68,10 +73,12 @@ export class UsersController {
             new MaxValueValidationPipe(configHelper.pagination.maxPerPage),
         )
         perPage: number,
+        @Query("name") name?: string,
     ) {
         return await this.usersService.findAll({
             page: page,
             perPage: perPage,
+            name: name,
         })
     }
 

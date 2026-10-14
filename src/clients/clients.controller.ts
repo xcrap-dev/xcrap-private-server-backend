@@ -38,6 +38,7 @@ export class ClientsController {
     @Get()
     @ApiQuery({ name: "page", required: false, type: Number })
     @ApiQuery({ name: "perPage", required: false, type: Number })
+    @ApiQuery({ name: "name", required: false, type: String })
     async findAll(
         @Query(
             "page",
@@ -54,8 +55,9 @@ export class ClientsController {
             new MaxValueValidationPipe(configHelper.pagination.maxPerPage),
         )
         perPage: number,
+        @Query("name") name?: string,
     ) {
-        return await this.clientsService.findAll({ page: page, perPage: perPage })
+        return await this.clientsService.findAll({ page: page, perPage: perPage, name: name })
     }
 
     @Get(":id")

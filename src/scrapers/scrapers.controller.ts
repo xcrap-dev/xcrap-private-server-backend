@@ -39,6 +39,7 @@ export class ScrapersController {
     @Get()
     @ApiQuery({ name: "page", required: false, type: Number })
     @ApiQuery({ name: "perPage", required: false, type: Number })
+    @ApiQuery({ name: "name", required: false, type: String })
     async findAll(
         @Query(
             "page",
@@ -55,8 +56,9 @@ export class ScrapersController {
             new MaxValueValidationPipe(configHelper.pagination.maxPerPage),
         )
         perPage: number,
+        @Query("name") name?: string,
     ) {
-        return await this.scrapersService.findAll({ page: page, perPage: perPage })
+        return await this.scrapersService.findAll({ page: page, perPage: perPage, name: name })
     }
 
     @Post("dynamic/execute")
